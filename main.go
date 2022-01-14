@@ -66,7 +66,7 @@ func dataOutput(pathInfo *PathInfo) {
 	} else if typeOut == humanOut {
 		lenName := 0
 		fmt.Printf("%s:\n", pathInfo.Tree.Name)
-		humanReadOut(&pathInfo.Tree, &lenName)
+		humanReadOut(&pathInfo.Tree, lenName)
 		fmt.Printf("files: %d\ndirs: %d\n", pathInfo.Meta.Files, pathInfo.Meta.Dirs)
 	} else {
 		fmt.Println("Unknown type of output.")
@@ -75,15 +75,13 @@ func dataOutput(pathInfo *PathInfo) {
 
 //Function for human readable text
 //Функция для человекочитаемого формата вывода
-func humanReadOut(tree *Tree, lenName *int) (*Tree, *int) {
-
-	lena := *lenName
-	lena += len(tree.Name)
+func humanReadOut(tree *Tree, lenName int) (*Tree, *int) {
+	lenName += 5
 	for _, treeElem := range tree.Contents {
-		fmt.Printf("%s|%s\n", strings.Repeat(" ", lena), treeElem.Name)
-		humanReadOut(&treeElem, &lena)
+		fmt.Printf("%s|--%s\n", strings.Repeat(" ", lenName), treeElem.Name)
+		humanReadOut(&treeElem, lenName)
 	}
-	return tree, &lena
+	return tree, &lenName
 }
 
 //Function for filling of PathInfo struct
